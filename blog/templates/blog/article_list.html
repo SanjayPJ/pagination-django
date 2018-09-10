@@ -1,0 +1,56 @@
+{% extends "blog/base.html" %}
+
+
+{% block content %}
+    
+    {% for article in article_list %}
+    <div class="card mt-2">
+        <div class="card-body">
+            <h3>{{ article.title }}</h3>
+            <p class="text-justify">{{ article.body|truncatechars:750 }}</p>
+        </div>
+    </div>
+    {% endfor %}
+    {% if is_paginated %}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination mt-2 justify-content-center">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <span><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></span>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span><a class="page-link">Previous</a></span>
+            </li>
+        {% endif %}
+        
+        {% for page_num in page_obj.paginator.page_range %}
+            
+            {% if page_num == page_obj.number %}
+                <li class="page-item active">
+                    <span><a class="page-link">{{ page_num }}</a></span>
+                </li>
+            {% else %}
+                <li class="page-item">
+                    <span><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></span>
+                </li>
+            {% endif %}  
+        {% endfor %}
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <span><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></span>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span><a class="page-link">Next</a></span>
+            </li>
+        {% endif %}
+        </ul>
+    {% else %}
+            <h3>Your File Exam</h3>
+            <p>File not yet available</p>
+        </nav>
+    {% endif %}
+        
+{% endblock content %}
+    
